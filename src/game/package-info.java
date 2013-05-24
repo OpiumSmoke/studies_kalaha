@@ -1,7 +1,5 @@
 /**
- * Contains game implementation classes.
- */
-/**
+ * Contains game logic classes.
  * @author nicky
  *
  */

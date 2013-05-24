@@ -20,24 +20,24 @@ import actions.StandardActions;
 public class Start extends JFrame {
 	
 	// initializing main variables: size and color
-	private Dimension winsize = new Dimension(400, 200);
+	static private Dimension winsize = new Dimension(400, 200);
 	
-	private Color green = new Color (0, 250, 0);
-	private Color red = new Color (250, 0, 0);
-	private Color blue = new Color (0, 0, 250);
-	private Color purple = new Color (100, 0, 100);
+	private static Color green = new Color (0, 250, 0);
+	private static Color red = new Color (250, 0, 0);
+	private static Color blue = new Color (0, 0, 250);
+	private static Color purple = new Color (100, 0, 100);
 	
 	// initialize main parts
-	JFrame start = new JFrame("Start new game");
-	JPanel container = new JPanel();
-	JLabel player1 = new JLabel("Player 1:");
-	JLabel player2 = new JLabel("Player 2:");
-	JLabel human = new JLabel ("Human");
-	JLabel human2 = new JLabel("Human");
-	JLabel computer = new JLabel("Computer");
-	JLabel computer2 = new JLabel ("Computer");
-	JLabel name = new JLabel("Name:");
-	JLabel name_ = new JLabel("Name:");
+	public static JFrame start = new JFrame("Start new game");
+	static JPanel container = new JPanel();
+	static JLabel player1 = new JLabel("Player 1:");
+	static JLabel player2 = new JLabel("Player 2:");
+	static JLabel human = new JLabel ("Human");
+	static JLabel human2 = new JLabel("Human");
+	static JLabel computer = new JLabel("Computer");
+	static JLabel computer2 = new JLabel ("Computer");
+	static JLabel name = new JLabel("Name:");
+	static JLabel name_ = new JLabel("Name:");
 	
 	public static JTextField name1 = new JTextField(25);
 	public static JTextField name2 = new JTextField(25);
@@ -47,7 +47,7 @@ public class Start extends JFrame {
 	public static JCheckBox c2 = new JCheckBox();
 	public static JButton play = new JButton("Play");
 	
-	public void Start() {
+	public static void Start() {
 		start.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		start.setPreferredSize(winsize);
 		start.setIconImage(new ImageIcon("bin/gui/kalaha.gif").getImage());
@@ -230,7 +230,7 @@ public class Start extends JFrame {
 		start.pack();
 		start.setVisible(true);	
 	}
-	public void showWindow() {
+	public static void showWindow() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				Start();

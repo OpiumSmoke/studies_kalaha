@@ -19,8 +19,13 @@ import actions.StandardActions;
 
 public class Game extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 247025076739455156L;
+
 	// initializing main variables: size and color
-	private Dimension winsize = new Dimension(800, 600);
+	private static Dimension winsize = new Dimension(800, 600);
 	
 	private Color green = new Color (0, 250, 0);
 	private Color red = new Color (250, 0, 0);
@@ -28,16 +33,16 @@ public class Game extends JFrame{
 	private Color purple = new Color (100, 0, 100);
 	
 	// initialize main parts	
-	JFrame window = new JFrame("Kalaha");
-	JMenuBar menubar = new JMenuBar();
-	JMenu game = new JMenu("Game");
-	JMenuItem newgame = new JMenuItem("New game");
-	JMenuItem help = new JMenuItem("Help");
-	JMenuItem exit = new JMenuItem ("Exit");
+	public static JFrame window = new JFrame("Kalaha");
+	static JMenuBar menubar = new JMenuBar();
+	static JMenu game = new JMenu("Game");
+	static JMenuItem newgame = new JMenuItem("New game");
+	static JMenuItem help = new JMenuItem("Help");
+	static JMenuItem exit = new JMenuItem ("Exit");
 	
-	JPanel container = new JPanel();
+	static JPanel container = new JPanel();
 
-	public void Game() {
+	public static void Game() {
 //***		window properties
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setPreferredSize(winsize);
@@ -81,7 +86,7 @@ public class Game extends JFrame{
 		window.setVisible(true);
 	}
 	
-	public void showWindow() {
+	public static void showWindow() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				Game();

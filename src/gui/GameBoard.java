@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,7 +14,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import actions.Gameplay;
+
 public class GameBoard extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4389563803973947050L;
+	
 	private static Dimension fieldsize = new Dimension(800, 400);
 	private static Dimension fieldmax = new Dimension(1900, 800);
 	private static Dimension kalaha = new Dimension (100, 200);
@@ -35,38 +43,38 @@ public class GameBoard extends JPanel {
 	// Field elements
 	static JPanel field = new JPanel();
 	
-	static JPanel kalaha1 = new JPanel();
-	static JPanel kalaha2 = new JPanel();
+	public static JPanel kalaha1 = new JPanel();
+	public static JPanel kalaha2 = new JPanel();
 	
-	static JPanel pl1h1 = new JPanel();
-	static JPanel pl1h2 = new JPanel();
-	static JPanel pl1h3 = new JPanel();
-	static JPanel pl1h4 = new JPanel();
-	static JPanel pl1h5 = new JPanel();
-	static JPanel pl1h6 = new JPanel();
+	public static JPanel pl1h1 = new JPanel();
+	public static JPanel pl1h2 = new JPanel();
+	public static JPanel pl1h3 = new JPanel();
+	public static JPanel pl1h4 = new JPanel();
+	public static JPanel pl1h5 = new JPanel();
+	public static JPanel pl1h6 = new JPanel();
 	
-	static JLabel k1 = new JLabel("0");
-	static JLabel h11 = new JLabel("1");
-	static JLabel h12 = new JLabel("2");
-	static JLabel h13 = new JLabel("3");
-	static JLabel h14 = new JLabel("4");
-	static JLabel h15 = new JLabel("5");
-	static JLabel h16 = new JLabel("6");
+	public static JLabel k1 = new JLabel("0");
+	public static JLabel h11 = new JLabel("1");
+	public static JLabel h12 = new JLabel("2");
+	public static JLabel h13 = new JLabel("3");
+	public static JLabel h14 = new JLabel("4");
+	public static JLabel h15 = new JLabel("5");
+	public static JLabel h16 = new JLabel("6");
 	
-	static JPanel pl2h1 = new JPanel();
-	static JPanel pl2h2 = new JPanel();
-	static JPanel pl2h3 = new JPanel();
-	static JPanel pl2h4 = new JPanel();
-	static JPanel pl2h5 = new JPanel();
-	static JPanel pl2h6 = new JPanel();
+	public static JPanel pl2h1 = new JPanel();
+	public static JPanel pl2h2 = new JPanel();
+	public static JPanel pl2h3 = new JPanel();
+	public static JPanel pl2h4 = new JPanel();
+	public static JPanel pl2h5 = new JPanel();
+	public static JPanel pl2h6 = new JPanel();
 	
-	static JLabel k2 = new JLabel("0");
-	static JLabel h21 = new JLabel("1");
-	static JLabel h22 = new JLabel("2");
-	static JLabel h23 = new JLabel("3");
-	static JLabel h24 = new JLabel("4");
-	static JLabel h25 = new JLabel("5");
-	static JLabel h26 = new JLabel("6");
+	public static JLabel k2 = new JLabel("0");
+	public static JLabel h21 = new JLabel("1");
+	public static JLabel h22 = new JLabel("2");
+	public static JLabel h23 = new JLabel("3");
+	public static JLabel h24 = new JLabel("4");
+	public static JLabel h25 = new JLabel("5");
+	public static JLabel h26 = new JLabel("6");
 	
 	static JPanel spacer = new JPanel();
 	static JPanel hint = new JPanel();
@@ -155,7 +163,7 @@ public class GameBoard extends JPanel {
 		gbcp2h1.gridheight = 1;
 		gbcp2h1.fill = GridBagConstraints.BOTH;
 		gbcp2h1.anchor = GridBagConstraints.CENTER;
-		gbcp2h1.gridx = 2;
+		gbcp2h1.gridx = 7;
 		gbcp2h1.gridy = 1;
 		
 		GridBagConstraints gbcp2h2 = new GridBagConstraints();
@@ -164,7 +172,7 @@ public class GameBoard extends JPanel {
 		gbcp2h2.gridheight = 1;
 		gbcp2h2.fill = GridBagConstraints.BOTH;
 		gbcp2h2.anchor = GridBagConstraints.CENTER;
-		gbcp2h2.gridx = 3;
+		gbcp2h2.gridx = 6;
 		gbcp2h2.gridy = 1;
 		
 		GridBagConstraints gbcp2h3 = new GridBagConstraints();
@@ -173,7 +181,7 @@ public class GameBoard extends JPanel {
 		gbcp2h3.gridheight = 1;
 		gbcp2h3.fill = GridBagConstraints.BOTH;
 		gbcp2h3.anchor = GridBagConstraints.CENTER;
-		gbcp2h3.gridx = 4;
+		gbcp2h3.gridx = 5;
 		gbcp2h3.gridy = 1;
 		
 		GridBagConstraints gbcp2h4 = new GridBagConstraints();
@@ -182,7 +190,7 @@ public class GameBoard extends JPanel {
 		gbcp2h4.gridheight = 1;
 		gbcp2h4.fill = GridBagConstraints.BOTH;
 		gbcp2h4.anchor = GridBagConstraints.CENTER;
-		gbcp2h4.gridx = 5;
+		gbcp2h4.gridx = 4;
 		gbcp2h4.gridy = 1;
 		
 		GridBagConstraints gbcp2h5 = new GridBagConstraints();
@@ -191,7 +199,7 @@ public class GameBoard extends JPanel {
 		gbcp2h5.gridheight = 1;
 		gbcp2h5.fill = GridBagConstraints.BOTH;
 		gbcp2h5.anchor = GridBagConstraints.CENTER;
-		gbcp2h5.gridx = 6;
+		gbcp2h5.gridx = 3;
 		gbcp2h5.gridy = 1;
 		
 		GridBagConstraints gbcp2h6 = new GridBagConstraints();
@@ -200,7 +208,7 @@ public class GameBoard extends JPanel {
 		gbcp2h6.gridheight = 1;
 		gbcp2h6.fill = GridBagConstraints.BOTH;
 		gbcp2h6.anchor = GridBagConstraints.CENTER;
-		gbcp2h6.gridx = 7;
+		gbcp2h6.gridx = 2;
 		gbcp2h6.gridy = 1;
 		
 		pl2h1.setLayout(hlayout);
@@ -398,7 +406,11 @@ public class GameBoard extends JPanel {
 		kalaha2.setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		kalaha2.add(k2, gbck);
 		
-		
+//***		add actions to elements
+		undo.setMnemonic(KeyEvent.VK_C);
+		undo.addActionListener(Gameplay.undo);
+		go.setMnemonic(KeyEvent.VK_C);
+		go.addActionListener(Gameplay.yes);
 			
 //***		build field
 		field.add(undo, gbcb1);

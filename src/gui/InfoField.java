@@ -33,7 +33,7 @@ public class InfoField extends Game{
 	public static JLabel player2 = new JLabel("Player 2");
 	
 	static JPanel status = new JPanel();
-	static JLabel message = new JLabel("Status message");
+	public static JLabel message = new JLabel();
 	
 	public static JPanel Info() {
 //***		info field shows player names and a status field
@@ -54,11 +54,12 @@ public class InfoField extends Game{
 		GridBagConstraints statcon = new GridBagConstraints();
 		statcon.insets = new Insets(20, 20, 20, 20);
 		statcon.gridwidth = 1;
-		statcon.fill = GridBagConstraints.NONE;
+		statcon.fill = GridBagConstraints.VERTICAL;
 		statcon.anchor = GridBagConstraints.CENTER;
 		statcon.gridx = 0;
 		statcon.gridy = 0;
 		
+		message.setText("Kalaha game is built by Nicky =^.^=");
 		status.setPreferredSize(stsize);
 		status.setLayout(statlayout);
 //		status.setBackground(blue);
@@ -99,7 +100,7 @@ public class InfoField extends Game{
 		gbcpl2.gridy = 1;	
 		
 		GridBagConstraints gbcstatus = new GridBagConstraints();
-		gbcstatus.insets = new Insets(20, 10, 10, 10);
+		gbcstatus.insets = new Insets(0, 0, 0, 0);
 		gbcstatus.gridwidth = 4;
 		gbcstatus.fill = GridBagConstraints.BOTH;
 		gbcstatus.anchor = GridBagConstraints.CENTER;

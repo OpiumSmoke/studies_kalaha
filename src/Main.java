@@ -22,8 +22,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Game newGame = new Game();
-		newGame.showWindow();
+		Game.showWindow();
 		
 //		Start newStart = new Start();
 //		newStart.showWindow();
