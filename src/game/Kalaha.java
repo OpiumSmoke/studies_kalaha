@@ -40,13 +40,17 @@ public class Kalaha {
 		int i = 0;
     	while (i <= 6) {
 			this.board[i] = field1[i];
-			this.board[i+6] = field2[i];
+			this.board[i+7] = field2[i];
 			System.out.println(board[i]);
 			System.out.println(board[i+6]);
 			System.out.println(i);
 		i++;
 		}
     	System.out.println(Arrays.toString(board));
+	}
+	
+	public void showField() {
+		
 	}
 	
 }
