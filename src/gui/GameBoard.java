@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,7 +8,6 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,22 +21,22 @@ public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 4389563803973947050L;
 	
 	private static Dimension fieldsize = new Dimension(800, 400);
-	private static Dimension fieldmax = new Dimension(1900, 800);
+//	private static Dimension fieldmax = new Dimension(1900, 800);
 	private static Dimension kalaha = new Dimension (100, 200);
 	private static Dimension hole = new Dimension (80, 80);
-	private static Dimension spsize = new Dimension (400, 30);
+//	private static Dimension spsize = new Dimension (400, 30);
 	
 	//test colors
-	static private Color green = new Color (0, 250, 0);
-	static private Color red = new Color (250, 0, 0);
-	static private Color blue = new Color (0, 0, 250);
-	static private Color purple = new Color (100, 0, 100);
+//	static private Color green = new Color (0, 250, 0);
+//	static private Color red = new Color (250, 0, 0);
+//	static private Color blue = new Color (0, 0, 250);
+//	static private Color purple = new Color (100, 0, 100);
 	
 	//player field colors
 	static private Color color1 = new Color (205, 38, 38);
 	static private Color color2 = new Color (24, 116, 205);
-	static private Color selected1 = new Color (255, 215, 0);
-	static private Color selected2 = new Color (0, 238, 118);
+//	static private Color selected1 = new Color (255, 215, 0);
+//	static private Color selected2 = new Color (0, 238, 118);
 	
 	// Field elements
 	static JPanel field = new JPanel();
@@ -46,12 +44,12 @@ public class GameBoard extends JPanel {
 	public static JPanel kalaha1 = new JPanel();
 	public static JPanel kalaha2 = new JPanel();
 	
-	public static JPanel pl1h1 = new JPanel();
-	public static JPanel pl1h2 = new JPanel();
-	public static JPanel pl1h3 = new JPanel();
-	public static JPanel pl1h4 = new JPanel();
-	public static JPanel pl1h5 = new JPanel();
-	public static JPanel pl1h6 = new JPanel();
+	public static JButton pl1h1 = new JButton();
+	public static JButton pl1h2 = new JButton();
+	public static JButton pl1h3 = new JButton();
+	public static JButton pl1h4 = new JButton();
+	public static JButton pl1h5 = new JButton();
+	public static JButton pl1h6 = new JButton();
 	
 	public static JLabel k1 = new JLabel("0");
 	public static JLabel h11 = new JLabel("1");
@@ -61,12 +59,12 @@ public class GameBoard extends JPanel {
 	public static JLabel h15 = new JLabel("5");
 	public static JLabel h16 = new JLabel("6");
 	
-	public static JPanel pl2h1 = new JPanel();
-	public static JPanel pl2h2 = new JPanel();
-	public static JPanel pl2h3 = new JPanel();
-	public static JPanel pl2h4 = new JPanel();
-	public static JPanel pl2h5 = new JPanel();
-	public static JPanel pl2h6 = new JPanel();
+	public static JButton pl2h1 = new JButton();
+	public static JButton pl2h2 = new JButton();
+	public static JButton pl2h3 = new JButton();
+	public static JButton pl2h4 = new JButton();
+	public static JButton pl2h5 = new JButton();
+	public static JButton pl2h6 = new JButton();
 	
 	public static JLabel k2 = new JLabel("0");
 	public static JLabel h21 = new JLabel("1");
@@ -366,6 +364,19 @@ public class GameBoard extends JPanel {
 		gbcs.anchor = GridBagConstraints.CENTER;
 		gbcs.gridx = 2;
 		gbcs.gridy = 2;
+		
+		GameBoard.pl1h1.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl1h2.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl1h3.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl1h4.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl1h5.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl1h6.addMouseListener(Gameplay.clickRed);
+		GameBoard.pl2h1.addMouseListener(Gameplay.clickBlue);
+		GameBoard.pl2h2.addMouseListener(Gameplay.clickBlue);
+		GameBoard.pl2h3.addMouseListener(Gameplay.clickBlue);
+		GameBoard.pl2h4.addMouseListener(Gameplay.clickBlue);
+		GameBoard.pl2h5.addMouseListener(Gameplay.clickBlue);
+		GameBoard.pl2h6.addMouseListener(Gameplay.clickBlue);
 		
 		// disable stuff per default
 		undo.setEnabled(false);

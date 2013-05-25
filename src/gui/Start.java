@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,13 +18,18 @@ import actions.StandardActions;
 
 public class Start extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// initializing main variables: size and color
 	static private Dimension winsize = new Dimension(400, 200);
 	
-	private static Color green = new Color (0, 250, 0);
+//	private static Color green = new Color (0, 250, 0);
 	private static Color red = new Color (250, 0, 0);
 	private static Color blue = new Color (0, 0, 250);
-	private static Color purple = new Color (100, 0, 100);
+//	private static Color purple = new Color (100, 0, 100);
 	
 	// initialize main parts
 	public static JFrame start = new JFrame("Start new game");

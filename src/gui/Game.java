@@ -1,20 +1,14 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
-
 import actions.StandardActions;
 
 public class Game extends JFrame{
@@ -27,10 +21,10 @@ public class Game extends JFrame{
 	// initializing main variables: size and color
 	private static Dimension winsize = new Dimension(800, 600);
 	
-	private Color green = new Color (0, 250, 0);
-	private Color red = new Color (250, 0, 0);
-	private Color blue = new Color (0, 0, 250);
-	private Color purple = new Color (100, 0, 100);
+//	private Color green = new Color (0, 250, 0);
+//	private Color red = new Color (250, 0, 0);
+//	private Color blue = new Color (0, 0, 250);
+//	private Color purple = new Color (100, 0, 100);
 	
 	// initialize main parts	
 	public static JFrame window = new JFrame("Kalaha");
@@ -79,7 +73,7 @@ public class Game extends JFrame{
 		container.add(InfoField.Info());
 		container.add(GameBoard.Field());
 		
-//***		build window	
+//***		build wiInteger.toString(Logics.game.player1.field[6]ndow	
 		window.setJMenuBar(menubar);
 		window.add(container);
 		window.pack();

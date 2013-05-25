@@ -1,8 +1,6 @@
 package actions;
 
 import game.Logics;
-import game.Player;
-import gui.Game;
 import gui.GameBoard;
 import gui.InfoField;
 import gui.Start;
@@ -15,10 +13,10 @@ import javax.swing.BorderFactory;
 	
 public class StandardActions {
 	
-	private static Color green = new Color (0, 250, 0);
+//	private static Color green = new Color (0, 250, 0);
 	private static Color red = new Color (250, 0, 0);
-	private static Color blue = new Color (0, 0, 250);
-	private static Color purple = new Color (100, 0, 100);
+//	private static Color blue = new Color (0, 0, 250);
+//	private static Color purple = new Color (100, 0, 100);
 	
 	static private Color color1 = new Color (205, 38, 38);
 	static private Color color2 = new Color (24, 116, 205);
@@ -45,7 +43,7 @@ public class StandardActions {
 	};
 	
 //***		start new game listeners
-	/* 
+	/** 
 	 * choose computer 1
 	 */
 	public static ActionListener choosec1 = new ActionListener() {
@@ -65,7 +63,7 @@ public class StandardActions {
 		}
 	};
 	
-	/* 
+	/**
 	 * choose player 1
 	 */
 	public static ActionListener choosep1 = new ActionListener() {
@@ -76,7 +74,7 @@ public class StandardActions {
 		}
 	};
 	
-	/*
+	/**
 	 * choose computer 2
 	 */
 	public static ActionListener choosec2 = new ActionListener() {
@@ -98,7 +96,7 @@ public class StandardActions {
 		}
 	};
 	
-	/*
+	/**
 	 * choose player 2
 	 */
 	public static ActionListener choosep2 = new ActionListener() {
@@ -117,15 +115,17 @@ public class StandardActions {
 			setField();
 //			Gameplay.coinToss();
 			Logics.newGame();
+			Logics.showBoard();
+			Logics.playGame(Logics.newGame());
 			Start.start.dispose();
 			}
 	};	
 	
-	/* 
-	 * clears field for new game
+	/**
+	 * clears field for new game. sets all elements to default state
 	 */
 	private static void clearField() {
-		InfoField.message.setText("Kalaha game is built by Nicky =^.^=");
+		InfoField.message.setText("Kalaha game is built by Nicky");
 		InfoField.message.setForeground(new Color (0,0,0));
 		InfoField.player1.setEnabled(false);
 		InfoField.player2.setEnabled(false);
@@ -162,10 +162,10 @@ public class StandardActions {
 		GameBoard.go.setEnabled(false);
 	}
 	
-	/*
-	 * sets field for a game
+	/**
+	 * sets field for a started game
 	 */
-	private static void setField () {
+	public static void setField () {
 		InfoField.player1.setEnabled(true);
 		InfoField.player2.setEnabled(true);
 		Start.name1.setEnabled(true);
@@ -173,19 +173,6 @@ public class StandardActions {
 		InfoField.player1.setText(Start.name1.getText());
 		InfoField.player2.setText(Start.name2.getText());
 		GameBoard.hmsg.setText("Click a hole to choose it"); 
-		
-		GameBoard.pl1h1.addMouseListener(Gameplay.clickField);
-		GameBoard.pl1h2.addMouseListener(Gameplay.clickField);
-		GameBoard.pl1h3.addMouseListener(Gameplay.clickField);
-		GameBoard.pl1h4.addMouseListener(Gameplay.clickField);
-		GameBoard.pl1h5.addMouseListener(Gameplay.clickField);
-		GameBoard.pl1h6.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h1.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h2.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h3.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h4.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h5.addMouseListener(Gameplay.clickField);
-		GameBoard.pl2h6.addMouseListener(Gameplay.clickField);
 		
 		GameBoard.kalaha1.setEnabled(true);
 		GameBoard.kalaha2.setEnabled(true);		

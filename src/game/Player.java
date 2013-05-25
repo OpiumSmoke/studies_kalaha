@@ -7,13 +7,13 @@ public class Player {
 	
 	public int [] field = new int[7];
 	
-	public int kalaha = field[0];
-	public int pit1 = field[1];
-	public int pit2 = field[2];
-	public int pit3 = field[3];
-	public int pit4 = field[4];
-	public int pit5 = field[5];
-	public int pit6 = field[6];
+	public int kalaha = field[6];
+	public int pit1 = field[0];
+	public int pit2 = field[1];
+	public int pit3 = field[2];
+	public int pit4 = field[3];
+	public int pit5 = field[4];
+	public int pit6 = field[5];
 	
 	public Player player;
 	
@@ -61,6 +61,12 @@ public class Player {
 	
 	public void makeMove() {
 		
+	}
+	
+	public int getKalaha() {
+		int [] tmp = getField();
+		kalaha = tmp[6];
+		return kalaha;
 	}
 
 }

@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,23 +8,26 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 
 public class InfoField extends Game{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2175042815827529894L;
+	
 	static private Dimension infosize = new Dimension(800, 200);
-	static private Dimension infomax = new Dimension(1900, 600);
-	static private Dimension fieldsize = new Dimension(800, 400);
-	static private Dimension fieldmax = new Dimension(1900, 800);
+//	static private Dimension infomax = new Dimension(1900, 600);
+//	static private Dimension fieldsize = new Dimension(800, 400);
+//	static private Dimension fieldmax = new Dimension(1900, 800);
 	static private Dimension stsize = new Dimension (400, 190);
 	
 	//test colors
-	static private Color green = new Color (0, 250, 0);
+//	static private Color green = new Color (0, 250, 0);
 	static private Color red = new Color (250, 0, 0);
 	static private Color blue = new Color (0, 0, 250);
-	static private Color purple = new Color (100, 0, 100);
+//	static private Color purple = new Color (100, 0, 100);
 	
 	// status panel elements
 	static JPanel info = new JPanel();
