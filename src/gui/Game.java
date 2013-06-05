@@ -73,7 +73,7 @@ public class Game extends JFrame{
 		container.add(InfoField.Info());
 		container.add(GameBoard.Field());
 		
-//***		build wiInteger.toString(Logics.game.player1.field[6]ndow	
+//***		build window	
 		window.setJMenuBar(menubar);
 		window.add(container);
 		window.pack();

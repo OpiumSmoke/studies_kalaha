@@ -62,6 +62,7 @@ public class InfoField extends Game{
 		statcon.gridy = 0;
 		
 		message.setText("Kalaha game is built by Nicky =^.^=");
+		message.setForeground(new Color ( 0, 0, 0 ));
 		status.setPreferredSize(stsize);
 		status.setLayout(statlayout);
 //		status.setBackground(blue);

@@ -10,98 +10,56 @@ import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
-import actions.Gameplay;
-
 public class Logics {
 	private static Color red = new Color (250, 0, 0);
 	private static Color blue = new Color (0, 0, 250);
 	static private Color color1 = new Color (205, 38, 38);
 	static private Color color2 = new Color (24, 116, 205);
 	public static double coin;
-	private static int turn1;
-	private static int turn2;
 	public static Kalaha game;
-	public static Player player1;
-	public static Player player2;
+	public Player player1;
+	public Player player2;
+	public Player activePlayer;
 	public static int [] movearray = new int [13];
-	public static int [] movecopy = new int [13];
 	public static boolean win = false;
-	public boolean empty = false;
+	public boolean full = false;
 	public static int [] boardcopy = new int [14];
 	
-	public static Kalaha newGame () {
-		player1 = new Player();
-		player2 = new Player();
+	public Kalaha newGame () {
+		this.player1 = new Player();
+		this.player2 = new Player();
+		this.activePlayer = new Player();
 		
-		int [] field = { 3, 3, 3, 3, 3, 3, 0 };
-//		int [] testfield = { 0, 0, 0, 0, 0, 0, 2 }; 
-		//testing
-//		int [] newfield = { 1, 2, 3, 4 , 5, 6 };
-//		int [] newfield1 = { 10, 20, 30, 40, 50, 60 };
-		
-		coinToss();
-//		player1.setPlayer("Nicky", 1, turn1, newfield);
-//		player1.setPlayer("Ulli", 2, turn2, newfield1);
-		
-		player1.setPlayer(Start.name1.getText(), 1, turn1, field);
-		player2.setPlayer(Start.name2.getText(), 2, turn2, field);
+		int [] board = { 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0 };
+//		int [] board = { 0, 0, 0, 0, 0, 10, 1, 1, 1, 1, 1, 1, 10 };
 				
-		game = new Kalaha(player1, player2);
-//		game.currentturn = currentturn;
+		player1.setPlayer(Start.name1.getText(), 1);
+		player2.setPlayer(Start.name2.getText(), 2);
+				
+		game = new Kalaha(player1, player2, board);
+		
+		game.setActivePlayer(game.coinToss());
+		enableFields(game.player1, game.player2, Kalaha.activePlayer);
+		writeMoveArray(Kalaha.activePlayer);
 		
 		// test output
 		System.out.println("New game started");
-		System.out.println("Field is set\n" + Arrays.toString(game.getStatus()));
-		System.out.println("P1: " + player1.getName() + " vs P2: " + player2.getName() );
-		System.out.println("P1 starts " + player1.getTurn()+ " P2 starts " + player2.getTurn());
-		System.out.println("P1: " + Arrays.toString(player1.getField()));
-		System.out.println("P2: " + Arrays.toString(player2.getField()));
+//		System.out.println("Field is set\n" + Arrays.toString(Kalaha.getStatus()));
+//		System.out.println("P1: " + player1.getName() + " vs P2: " + player2.getName() );
+//		System.out.println("P1 starts " + player1.getTurn()+ " P2 starts " + player2.getTurn());
+//		System.out.println("P1: " + Arrays.toString(player1.getField()));
+//		System.out.println("P2: " + Arrays.toString(player2.getField()));
 			
 		showBoard();
 		
-		System.out.println("P1's Kalaha has " + player1.getKalaha());
-		System.out.println("P2's Kalaha has " + player2.getKalaha());
+//		System.out.println("P1's Kalaha has " + player1.getKalaha());
+//		System.out.println("P2's Kalaha has " + player2.getKalaha());
 		
-		game.setCurrentTurn(0);
+//		game.setActivePlayer(activePlayer);
 				
 		return game;
 	}	
-
-	/**
-	 * determines whose turn it is. Initialize after getCurrentTurn()
-	 */
-	public static void whoseTurn(int currentturn) {
-		System.out.println("Initialize whoseTurn()");
-		
-		if (Logics.game.player1.getTurn() == currentturn) {
-			System.out.println("P1's turn (" + player1.getTurn()+ ")");
-		} else if (Logics.game.player2.getTurn() == currentturn) {
-			System.out.println("P2's turn (" + player2.getTurn()+ ")");
-		}
-	}
 	
-	/**
-	 * gives player their turn and sets the field clickable.
-	 * 
-	 * @param player
-	 * @param currentturn
-	 */
-	public static void giveTurn(Player player1, Player player2,  int currentturn) {
-		System.out.println("Initialize giveTurn");
-		clearSelections();
-		if (player1.getTurn() == currentturn) {
-			InfoField.message.setForeground(red);
-			InfoField.message.setText(player1.getName() + ",   your turn!");
-			System.out.println("P1 gets turn");
-			writeMoveArray(player1);
-		} else if (player2.getTurn() == currentturn) {
-			InfoField.message.setForeground(blue);
-			InfoField.message.setText(player2.getName() + ",   your turn!");
-			System.out.println("P2 gets turn");
-			writeMoveArray(player2);
-		}
-		enableFields(player1, player2, currentturn);
-	}
 	/**
 	 * makes a move, filling move array.
 	 * make move also accepts last made move and writes it to player fields.
@@ -111,101 +69,231 @@ public class Logics {
 	 * 
 	 */
 	public static void makeMove(JLabel pit, int pitnumber) {
-		writeMoveOnField(movecopy);
+//		writeMoveOnField(Kalaha.player1, Kalaha.player2, Kalaha.currentturn, movearray);
 		
-		movecopy = movearray;
-		boardcopy = game.getStatus();
-		int tmp = movecopy[pitnumber];
-		movecopy[pitnumber] = 0;		
+//		boardcopy = Kalaha.getStatus();
+		int tmp = movearray[pitnumber];
+		movearray[pitnumber] = 0;		
 		
-		System.out.println("tmp: " + tmp + " movecopy[pitnumber]: " + movecopy[pitnumber]);
-		System.out.println("Board copied: " + Arrays.toString(boardcopy));
-		
+		System.out.println("tmp: " + tmp + " movearray[pitnumber]: " + movearray[pitnumber]);
+//		System.out.println("Board copied: " + Arrays.toString(boardcopy));
+	
 		if ( tmp != 0 ) {
 			while ( tmp > 0 ) {
 				if ( pitnumber >= 12) pitnumber = 0;
 				else pitnumber++;
 	
-				movecopy[pitnumber]++;
+				movearray[pitnumber]++;
 				tmp--;
-			}
-			showMove();
-			System.out.println("Move made: " + Arrays.toString(movecopy));
+												
+				/*
+				 * gives a player an extra turn if the last seed landed into kalaha
+				 */
+				if ( Kalaha.activePlayer == game.player1  && tmp == 0 && pitnumber == 6) {
+					System.out.println("P1: Last seed into own kalaha!");
+					showMove(game.player1);
+					clearSelections();
+					game.setActivePlayer(game.player1);
+					System.out.println("Active player is " + Kalaha.activePlayer.getName());
+					InfoField.message.setText("You get an extra turn!");					
+				} else if ( Kalaha.activePlayer ==  game.player2 && tmp == 0 && pitnumber == 6) {
+					System.out.println("P2: Last seed into own kalaha!");
+					showMove(game.player2);
+					clearSelections();
+					game.setActivePlayer(game.player2);
+					System.out.println("Active player is " + Kalaha.activePlayer.getName());
+					InfoField.message.setText("You get an extra turn!");
+				} else if ( (Kalaha.activePlayer == game.player1 ||
+						Kalaha.activePlayer == game.player2 ) && tmp == 0 && pitnumber !=6 ){			
+					/*
+					 * try to capture stones
+					 */
+					if ( Kalaha.activePlayer == game.player1 ) {
+						if ( pitnumber == 0 && Kalaha.board[0] == 0 && Kalaha.board[12] != 0 ) {
+							movearray[6] = movearray[6] + movearray[0] + movearray[12];
+							movearray[0] = 0;
+							movearray[12] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 1 && Kalaha.board[1] == 0 && Kalaha.board[11] != 0 ) {
+							movearray[6] = movearray[6] + movearray[1] + movearray[11];
+							movearray[1] = 0;
+							movearray[11] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 2 && Kalaha.board[2] == 0 && Kalaha.board[10] != 0 ) {
+							movearray[6] = movearray[6] + movearray[2] + movearray[10];
+							movearray[2] = 0;
+							movearray[10] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 3 && Kalaha.board[3] == 0 && Kalaha.board[9] != 0 ) {
+							movearray[6] = movearray[6] + movearray[3] + movearray[9];
+							movearray[3] = 0;
+							movearray[9] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 4 && Kalaha.board[4] == 0 && Kalaha.board[8] != 0 ) {
+							movearray[6] = movearray[6] + movearray[4] + movearray[8];
+							movearray[4] = 0;
+							movearray[8] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 5 && Kalaha.board[5] == 0 && Kalaha.board[7] != 0 ) {
+							movearray[6] = movearray[6] + movearray[5] + movearray[7];
+							movearray[5] = 0;
+							movearray[7] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						}
+					} else if ( Kalaha.activePlayer == game.player2 ) {
+						if ( pitnumber == 0 && Kalaha.board[7] == 0 && Kalaha.board[5] != 0 ) {
+							movearray[6] = movearray[6] + movearray[0] + movearray[12];
+							movearray[0] = 0;
+							movearray[12] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 1 && Kalaha.board[8] == 0 && Kalaha.board[4] != 0 ) {
+							movearray[6] = movearray[6] + movearray[1] + movearray[11];
+							movearray[1] = 0;
+							movearray[11] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 2 && Kalaha.board[9] == 0 && Kalaha.board[3] != 0 ) {
+							movearray[6] = movearray[6] + movearray[2] + movearray[10];
+							movearray[2] = 0;
+							movearray[10] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 3 && Kalaha.board[10] == 0 && Kalaha.board[2] != 0 ) {
+							movearray[6] = movearray[6] + movearray[3] + movearray[9];
+							movearray[3] = 0;
+							movearray[9] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 4 && Kalaha.board[11] == 0 && Kalaha.board[1] != 0 ) {
+							movearray[6] = movearray[6] + movearray[4] + movearray[8];
+							movearray[4] = 0;
+							movearray[8] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						} else if ( pitnumber == 5 && Kalaha.board[12] == 0 && Kalaha.board[0] != 0 ) {
+							movearray[6] = movearray[6] + movearray[5] + movearray[7];
+							movearray[5] = 0;
+							movearray[7] = 0;
+							System.out.println("Captured: " + Arrays.toString(movearray));
+						}
+					}
+					
+					showMove(Kalaha.activePlayer);
+					System.out.println("Made regular move");
+					game.changeActivePlayer(Kalaha.activePlayer);
+				}
+			}		
+//			showMove(game.activePlayer);
+			
+			System.out.println("Move made: " + Arrays.toString(movearray));
+			System.out.println("Board: " + Arrays.toString(Kalaha.board));
 			GameBoard.undo.setEnabled(true);
 			
-			if ( gameWon(game.player1, game.player1) == false ) {
-				game.setCurrentTurn(game.currentturn);
-				giveTurn(game.player1, game.player1, game.currentturn);
-			}
+			gameWon( game.player1, game.player2 );
+		
 		} else {
-			GameBoard.hmsg.setText("You have to empty a full pit!");
-			System.out.println("Pit is empty!");		
+			System.out.println("Pit is empty!");	
 		}
 	}
 	/**
 	 * shows move and writes a board copy to use
 	 * if the move wasn't undone.
 	 */
-	public static void showMove() {
-		if (game.player1.getTurn() == game.getCurrentTurn()) {
-			GameBoard.h11.setText(Integer.toString(movecopy[0]));
-			GameBoard.h12.setText(Integer.toString(movecopy[1]));
-			GameBoard.h13.setText(Integer.toString(movecopy[2]));
-			GameBoard.h14.setText(Integer.toString(movecopy[3]));
-			GameBoard.h15.setText(Integer.toString(movecopy[4]));
-			GameBoard.h16.setText(Integer.toString(movecopy[5]));
-			GameBoard.k1.setText(Integer.toString(movecopy[6]));
-			GameBoard.h21.setText(Integer.toString(movecopy[7]));
-			GameBoard.h22.setText(Integer.toString(movecopy[8]));
-			GameBoard.h23.setText(Integer.toString(movecopy[9]));
-			GameBoard.h24.setText(Integer.toString(movecopy[10]));
-			GameBoard.h25.setText(Integer.toString(movecopy[11]));
-			GameBoard.h26.setText(Integer.toString(movecopy[12]));
-			boardcopy[0] = movecopy[0];
-			boardcopy[1] = movecopy[1];
-			boardcopy[2] = movecopy[2];
-			boardcopy[3] = movecopy[3];
-			boardcopy[4] = movecopy[4];
-			boardcopy[5] = movecopy[5];
-			boardcopy[6] = movecopy[6];
-			boardcopy[7] = movecopy[7];
-			boardcopy[8] = movecopy[8];
-			boardcopy[9] = movecopy[9];
-			boardcopy[10] = movecopy[10];
-			boardcopy[11] = movecopy[11];
-			boardcopy[12] = movecopy[12];
-		} else if (game.player2.getTurn() == game.getCurrentTurn()) {
-			GameBoard.h21.setText(Integer.toString(movecopy[0]));
-			GameBoard.h22.setText(Integer.toString(movecopy[1]));
-			GameBoard.h23.setText(Integer.toString(movecopy[2]));
-			GameBoard.h24.setText(Integer.toString(movecopy[3]));
-			GameBoard.h25.setText(Integer.toString(movecopy[4]));
-			GameBoard.h26.setText(Integer.toString(movecopy[5]));
-			GameBoard.k2.setText(Integer.toString(movecopy[6]));
-			GameBoard.h11.setText(Integer.toString(movecopy[7]));
-			GameBoard.h12.setText(Integer.toString(movecopy[8]));
-			GameBoard.h13.setText(Integer.toString(movecopy[9]));
-			GameBoard.h14.setText(Integer.toString(movecopy[10]));
-			GameBoard.h15.setText(Integer.toString(movecopy[11]));
-			GameBoard.h16.setText(Integer.toString(movecopy[12]));
-			boardcopy[6] = movecopy[0];
-			boardcopy[7] = movecopy[1];
-			boardcopy[8] = movecopy[2];
-			boardcopy[9] = movecopy[3];
-			boardcopy[19] = movecopy[4];
-			boardcopy[11] = movecopy[5];
-			boardcopy[12] = movecopy[6];
-			boardcopy[0] = movecopy[7];
-			boardcopy[1] = movecopy[8];
-			boardcopy[2] = movecopy[9];
-			boardcopy[3] = movecopy[10];
-			boardcopy[4] = movecopy[11];
-			boardcopy[5] = movecopy[12];
+	public static void showMove(Player player) {
+		System.out.println("Show move from " + Kalaha.activePlayer.getName());
+		if ( player == game.player1 ) {
+			System.out.println("Showing P1's move.");
+			GameBoard.h11.setText(Integer.toString(movearray[0]));
+			GameBoard.h12.setText(Integer.toString(movearray[1]));
+			GameBoard.h13.setText(Integer.toString(movearray[2]));
+			GameBoard.h14.setText(Integer.toString(movearray[3]));
+			GameBoard.h15.setText(Integer.toString(movearray[4]));
+			GameBoard.h16.setText(Integer.toString(movearray[5]));
+			GameBoard.k1.setText(Integer.toString(movearray[6]));
+			GameBoard.h21.setText(Integer.toString(movearray[7]));
+			GameBoard.h22.setText(Integer.toString(movearray[8]));
+			GameBoard.h23.setText(Integer.toString(movearray[9]));
+			GameBoard.h24.setText(Integer.toString(movearray[10]));
+			GameBoard.h25.setText(Integer.toString(movearray[11]));
+			GameBoard.h26.setText(Integer.toString(movearray[12]));
+			Kalaha.board[0] = movearray[0];
+			Kalaha.board[1] = movearray[1];
+			Kalaha.board[2] = movearray[2];
+			Kalaha.board[3] = movearray[3];
+			Kalaha.board[4] = movearray[4];
+			Kalaha.board[5] = movearray[5];
+			Kalaha.board[6] = movearray[6];
+			Kalaha.board[7] = movearray[7];
+			Kalaha.board[8] = movearray[8];
+			Kalaha.board[9] = movearray[9];
+			Kalaha.board[10] = movearray[10];
+			Kalaha.board[11] = movearray[11];
+			Kalaha.board[12] = movearray[12];			
+		} else if ( player == game.player2 ) {
+			System.out.println("Showing P2's move.");			
+			GameBoard.h21.setText(Integer.toString(movearray[0]));
+			GameBoard.h22.setText(Integer.toString(movearray[1]));
+			GameBoard.h23.setText(Integer.toString(movearray[2]));
+			GameBoard.h24.setText(Integer.toString(movearray[3]));
+			GameBoard.h25.setText(Integer.toString(movearray[4]));
+			GameBoard.h26.setText(Integer.toString(movearray[5]));
+			GameBoard.k2.setText(Integer.toString(movearray[6]));
+			GameBoard.h11.setText(Integer.toString(movearray[7]));
+			GameBoard.h12.setText(Integer.toString(movearray[8]));
+			GameBoard.h13.setText(Integer.toString(movearray[9]));
+			GameBoard.h14.setText(Integer.toString(movearray[10]));
+			GameBoard.h15.setText(Integer.toString(movearray[11]));
+			GameBoard.h16.setText(Integer.toString(movearray[12]));			
+			Kalaha.board[7] = movearray[0];
+			Kalaha.board[8] = movearray[1];
+			Kalaha.board[9] = movearray[2];
+			Kalaha.board[10] = movearray[3];
+			Kalaha.board[11] = movearray[4];
+			Kalaha.board[12] = movearray[5];
+			Kalaha.board[13] = movearray[6];
+			Kalaha.board[0] = movearray[7];
+			Kalaha.board[1] = movearray[8];
+			Kalaha.board[2] = movearray[9];
+			Kalaha.board[3] = movearray[10];
+			Kalaha.board[4] = movearray[11];
+			Kalaha.board[5] = movearray[12];
 		}
+		System.out.println(Arrays.toString(Kalaha.board));
 	}
-	
-	public void captureStones() {
-		//TODO and this too!
+	/**
+	 * pitnumber is got out of movearray.
+	 * Opposites:
+	 * 0 - 12
+	 * 1 - 11
+	 * 2 - 10
+	 * 3 - 9
+	 * 4 - 8
+	 * 5 - 7
+	 */
+	public static void captureStones( int [] movearray, int pitnumber, int i) {
+		//TODO finish capture stones
+		System.out.println("Try to capture stones");
+		if ( i == 0 && pitnumber == 0 && movearray[0] == 0 && movearray[12] != 0 ) {
+			movearray[6] = movearray[6] + movearray[0] + movearray[12];
+			movearray[0] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		} else if ( i == 0 && pitnumber == 1 && movearray[1] == 0 && movearray[11] != 0 ) {
+			movearray[6] = movearray[6] + movearray[1] + movearray[11];
+			movearray[1] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		} else if ( i == 0 && pitnumber == 2 && movearray[2] == 0 && movearray[10] != 0 ) {
+			movearray[6] = movearray[6] + movearray[2] + movearray[10];
+			movearray[2] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		} else if ( i == 0 && pitnumber == 3 && movearray[3] == 0 && movearray[9] != 0 ) {
+			movearray[6] = movearray[6] + movearray[3] + movearray[9];
+			movearray[3] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		} else if ( i == 0 && pitnumber == 4 && movearray[4] == 0 && movearray[8] != 0 ) {
+			movearray[6] = movearray[6] + movearray[4] + movearray[8];
+			movearray[4] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		} else if ( i == 0 && pitnumber == 5 && movearray[5] == 0 && movearray[7] != 0 ) {
+			movearray[6] = movearray[6] + movearray[5] + movearray[7];
+			movearray[5] = 0;
+			System.out.println("Captured: " + Arrays.toString(movearray));
+		}
 	}
 	/**
 	 * checks opposite pit has stones in it.
@@ -220,57 +308,140 @@ public class Logics {
 	 * field 6 is the players' kalaha and should not be compared.
 	 */
 	public boolean isOppositeFull(JLabel pit) {
-		if (pit == GameBoard.h11) {
-			//TODO: blaaaah, write it! has to check stuff
-		}
-		return empty;
+		//TODO: blaaaah, write it! has to check stuff
+		if (pit == GameBoard.h11 && Kalaha.board[7] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[7]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h12 && Kalaha.board[8] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[8]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h13 && Kalaha.board[9] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[9]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h14 && Kalaha.board[10] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[10]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h15 && Kalaha.board[11] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[11]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h16 && Kalaha.board[12] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[12]) + "stones.");
+			full = true;
+		} 		if (pit == GameBoard.h21 && Kalaha.board[0] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[0]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h22 && Kalaha.board[1] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[1]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h23 && Kalaha.board[2] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[2]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h24 && Kalaha.board[3] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[3]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h25 && Kalaha.board[4] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[4]) + "stones.");
+			full = true;
+		} else if (pit == GameBoard.h26 && Kalaha.board[5] != 0) {
+			System.out.println("Opposite has " + Integer.toString(Kalaha.board[5]) + "stones.");
+			full = true;
+		} 
+		return full;
 	}
 	
 	public static void undoMove() {
-		game.board = boardcopy;
+		System.out.println("Undo move");
+		Kalaha.board = boardcopy;
 		//TODO eventually, if undo should be enabled in next turn, change to !=
+		//TODO does not work properly
+		System.out.println("Board status set to: " + Arrays.toString(Kalaha.board));
 		
-		if (game.player1.getTurn() == game.getCurrentTurn()) {
-			int [] field = { movecopy[0],
-					boardcopy[1],
-					boardcopy[2],
-					boardcopy[3],
-					boardcopy[4],
-					boardcopy[5],
-					boardcopy[6]};
-			game.player1.setField(field);
-			game.player2.field[0] = movecopy[7];
-			game.player2.field[1] = boardcopy[8];
-			game.player2.field[2] = boardcopy[9];
-			game.player2.field[3] = boardcopy[10];
-			game.player2.field[4] = boardcopy[11];
-			game.player2.field[5] = boardcopy[12];
-		} else if (game.player2.getTurn() == game.getCurrentTurn()) {
-			int [] field = { movecopy[0],
-					boardcopy[1],
-					boardcopy[2],
-					boardcopy[3],
-					boardcopy[4],
-					boardcopy[5],
-					boardcopy[6]};
-			game.player2.setField(field);
-			game.player1.field[0] = movecopy[7];
-			game.player1.field[1] = boardcopy[8];
-			game.player1.field[2] = boardcopy[9];
-			game.player1.field[3] = boardcopy[10];
-			game.player1.field[4] = boardcopy[11];
-			game.player1.field[5] = boardcopy[12];
-		}
-		game.setStatus(game.player1.field, game.player2.field);
+		GameBoard.h11.setText(Integer.toString(boardcopy[0]));
+		GameBoard.h12.setText(Integer.toString(boardcopy[1]));
+		GameBoard.h13.setText(Integer.toString(boardcopy[2]));
+		GameBoard.h14.setText(Integer.toString(boardcopy[3]));
+		GameBoard.h15.setText(Integer.toString(boardcopy[4]));
+		GameBoard.h16.setText(Integer.toString(boardcopy[5]));
+		GameBoard.k1.setText(Integer.toString(boardcopy[6]));
+		GameBoard.h21.setText(Integer.toString(boardcopy[7]));
+		GameBoard.h22.setText(Integer.toString(boardcopy[8]));
+		GameBoard.h23.setText(Integer.toString(boardcopy[9]));
+		GameBoard.h24.setText(Integer.toString(boardcopy[10]));
+		GameBoard.h25.setText(Integer.toString(boardcopy[11]));
+		GameBoard.h26.setText(Integer.toString(boardcopy[12]));
+		GameBoard.k2.setText(Integer.toString(boardcopy[13]));
+		
+//		if (Kalaha.player1.getTurn() != Kalaha.getCurrentTurn()) {
+//			int [] field = { movearray[0],
+//					boardcopy[1],
+//					boardcopy[2],
+//					boardcopy[3],
+//					boardcopy[4],
+//					boardcopy[5],
+//					boardcopy[6]};
+//			Kalaha.player1.setField(field);
+//			Kalaha.player2.field[0] = movearray[7];
+//			Kalaha.player2.field[1] = boardcopy[8];
+//			Kalaha.player2.field[2] = boardcopy[9];
+//			Kalaha.player2.field[3] = boardcopy[10];
+//			Kalaha.player2.field[4] = boardcopy[11];
+//			Kalaha.player2.field[5] = boardcopy[12];
+//		} else if (Kalaha.player2.getTurn() != Kalaha.getCurrentTurn()) {
+//			int [] field = { movearray[0],
+//					boardcopy[1],
+//					boardcopy[2],
+//					boardcopy[3],
+//					boardcopy[4],
+//					boardcopy[5],
+//					boardcopy[6]};
+//			Kalaha.player2.setField(field);
+//			Kalaha.player1.field[0] = movearray[7];
+//			Kalaha.player1.field[1] = boardcopy[8];
+//			Kalaha.player1.field[2] = boardcopy[9];
+//			Kalaha.player1.field[3] = boardcopy[10];
+//			Kalaha.player1.field[4] = boardcopy[11];
+//			Kalaha.player1.field[5] = boardcopy[12];
+//		}
+//		game.setStatus(Kalaha.player1.field, Kalaha.player2.field);
 	}
 	
-	public static void writeMoveOnField(int[] movecopy) {
+	public static void writeMoveOnField(Player player1, Player player2, Player activePlayer, int[] movearray) {
 		System.out.println("Writing made move to field");
-		
+		//TODO is writeMoveOnField used?
+		if (player1 == activePlayer) {
+			Kalaha.board[0] = movearray[0];
+			Kalaha.board[1] = movearray[1];
+			Kalaha.board[2] = movearray[2];
+			Kalaha.board[3] = movearray[3];
+			Kalaha.board[4] = movearray[4];
+			Kalaha.board[5] = movearray[5];
+			Kalaha.board[6] = movearray[6];
+			Kalaha.board[7] = movearray[7];
+			Kalaha.board[8] = movearray[8];
+			Kalaha.board[9] = movearray[9];
+			Kalaha.board[10] = movearray[10];
+			Kalaha.board[11] = movearray[11];
+			Kalaha.board[12] = movearray[12];		
+		} else if (player2 == activePlayer) {
+			Kalaha.board[0] = movearray[7];
+			Kalaha.board[1] = movearray[8];
+			Kalaha.board[2] = movearray[9];
+			Kalaha.board[3] = movearray[10];
+			Kalaha.board[4] = movearray[11];
+			Kalaha.board[5] = movearray[12];
+			Kalaha.board[7] = movearray[0];
+			Kalaha.board[8] = movearray[1];
+			Kalaha.board[9] = movearray[2];
+			Kalaha.board[10] = movearray[3];
+			Kalaha.board[11] = movearray[4];
+			Kalaha.board[12] = movearray[5];
+			Kalaha.board[13] = movearray[6];
+		}
+		System.out.println("Board status: " + Arrays.toString(Kalaha.board));
 	}
 	
 	public static int[] writeMoveArray(Player player) {
-		int [] tmp = game.getStatus();
+		int [] tmp = Kalaha.getStatus();
 		if (player.getIdentity() == 1) {
 			movearray[0] = tmp[0];
 			movearray[1] = tmp[1];
@@ -308,65 +479,108 @@ public class Logics {
 	 * it also shows who the winner is
 	 */
 	public static boolean gameWon(Player player1, Player player2) {
-		int [] tmp1 = player1.getField();
-		int [] tmp2 = player2.getField();
+		// when all of one player's pits are empty, take all stones from the field
+		// to player's (whose pits are full) kalaha
+		// player with most seeds wins
+		int [] tmpfield = Kalaha.getStatus();
+		int [] tmp1 = {tmpfield[0],
+				tmpfield[1],
+				tmpfield[2],
+				tmpfield[3],
+				tmpfield[4],
+				tmpfield[5],
+				tmpfield[6]	};
+		int [] tmp2 = {tmpfield[7],
+				tmpfield[8],
+				tmpfield[9],
+				tmpfield[10],
+				tmpfield[11],
+				tmpfield[12],
+				tmpfield[13] };
 		if (tmp1 [0] == 0 &&
 				tmp1[1] == 0 &&
 				tmp1[2] == 0 &&
 				tmp1[3] == 0 &&
 				tmp1[4] == 0 &&
 				tmp1[5] == 0) {
-			if (player1.getIdentity() == 1) {
-				System.out.println("P2 won with " + player2.getKalaha());
+			Kalaha.board[13] = tmp2[0] + tmp2[1] + tmp2[2] + tmp2[3] + tmp2[4] + tmp2[5] + tmp2[6];
+			Kalaha.board[7] = 0;
+			Kalaha.board[8] = 0;
+			Kalaha.board[9] = 0;
+			Kalaha.board[10] = 0;
+			Kalaha.board[11] = 0;
+			Kalaha.board[12] = 0;
+			if ( Kalaha.board[13] > Kalaha.board[6]) {
+				System.out.println("P2 won with " + Integer.toString(Kalaha.board[13]));
 				InfoField.message.setForeground(blue);
 				GameBoard.hmsg.setForeground(blue);
 				InfoField.message.setText("Congratulations,   " + player2.getName() +
 							"!   You've won the game!");
 				GameBoard.hmsg.setText(player2.getName() + " won with " +
-							Integer.toString(player2.field[6]) + " stines in their Kalaha!");
-			} else if (player1.getIdentity() == 2) {
-				System.out.println("P1 won with " + player1.getKalaha());
+							Integer.toString(Kalaha.board[13]) + " stones in their Kalaha!");
+			} else if ( Kalaha.board[13] < Kalaha.board[6]) {
+				System.out.println("P1 won with " + Integer.toString(Kalaha.board[6]));
 				InfoField.message.setForeground(red);
 				GameBoard.hmsg.setForeground(red);
 				InfoField.message.setText("Congratulations,   " + player1.getName() +
 							"!   You've won the game!");
 				GameBoard.hmsg.setText(player1.getName() + " won with " +
-						Integer.toString(player1.field[6]) + " stines in their Kalaha!");
+						Integer.toString(Kalaha.board[6]) + " stones in their Kalaha!");
+			} else if ( Kalaha.board[13] == Kalaha.board[6] ) {
+				System.out.println("It's a draw!");
+				InfoField.message.setForeground( new Color ( 0, 0, 0 ));
+				InfoField.message.setText("It's a draw!   Both players have " +
+						Integer.toString(Kalaha.board[13]) + " stones!");
 			}
+
 		} else 	if (tmp2 [0] == 0 &&
 					tmp2[1] == 0 &&
 					tmp2[2] == 0 &&
 					tmp2[3] == 0 &&
 					tmp2[4] == 0 &&
 					tmp2[5] == 0) {
-				if (player2.getIdentity() == 1) {
-					System.out.println("P2 won with " + player2.getKalaha());
-					InfoField.message.setForeground(blue);
-					GameBoard.hmsg.setForeground(blue);
-					InfoField.message.setText("Congratulations,   " + player2.getName() +
-								"!   You've won the game!");
-					GameBoard.hmsg.setText(player2.getName() + " won with " +
-							Integer.toString(player2.field[6]) + " stines in their Kalaha!");
-				} else if (player2.getIdentity() == 2) {
-					System.out.println("P1 won with " + player1.getKalaha());
-					InfoField.message.setForeground(red);
-					GameBoard.hmsg.setForeground(red);
-					InfoField.message.setText("Congratulations,   " + player1.getName() +
-								"!   You've won the game!");
-					GameBoard.hmsg.setText(player1.getName() + " won with " +
-							Integer.toString(player1.field[6]) + " stines in their Kalaha!");
-				}
+			Kalaha.board[6] = tmp1[0] + tmp1[1] + tmp1[2] + tmp1[3] + tmp1[4] + tmp1[5] + tmp1[6];
+			Kalaha.board[0] = 0;
+			Kalaha.board[1] = 0;
+			Kalaha.board[2] = 0;
+			Kalaha.board[3] = 0;
+			Kalaha.board[4] = 0;
+			Kalaha.board[5] = 0;
+			if ( Kalaha.board[13] > Kalaha.board[6]) {
+				System.out.println("P2 won with " + Integer.toString(Kalaha.board[13]));
+				InfoField.message.setForeground(blue);
+				GameBoard.hmsg.setForeground(blue);
+				InfoField.message.setText("Congratulations,   " + player2.getName() +
+							"!   You've won the game!");
+				GameBoard.hmsg.setText(player2.getName() + " won with " +
+							Integer.toString(Kalaha.board[13]) + " stones in their Kalaha!");
+			} else if ( Kalaha.board[13] < Kalaha.board[6]) {
+				System.out.println("P1 won with " + Integer.toString(Kalaha.board[6]));
+				InfoField.message.setForeground(red);
+				GameBoard.hmsg.setForeground(red);
+				InfoField.message.setText("Congratulations,   " + player1.getName() +
+							"!   You've won the game!");
+				GameBoard.hmsg.setText(player1.getName() + " won with " +
+						Integer.toString(Kalaha.board[6]) + " stones in their Kalaha!");
+			} else if ( Kalaha.board[13] == Kalaha.board[6] ) {
+				System.out.println("It's a draw!");
+				InfoField.message.setForeground( new Color ( 0, 0, 0 ));
+				InfoField.message.setText("It's a draw!   Both players have " +
+						Integer.toString(Kalaha.board[13]) + " stones!");
+			}
 			win = true;
 		} else {
 			win = false;
 		}
+		System.out.println(Arrays.toString(Kalaha.board));
 		return win;
 	}
 	/**
 	 * sets all labels, actually. As test, prints both player field arrays
+	 * is used to show board at the start of the new game.
 	 */
 	public static void showBoard() {
-		int [] tmp = game.getStatus();
+		int [] tmp = Kalaha.getStatus();
 		GameBoard.h11.setText(Integer.toString(tmp[0]));
 		GameBoard.h12.setText(Integer.toString(tmp[1]));
 		GameBoard.h13.setText(Integer.toString(tmp[2]));
@@ -381,46 +595,10 @@ public class Logics {
 		GameBoard.h25.setText(Integer.toString(tmp[11]));
 		GameBoard.h26.setText(Integer.toString(tmp[12]));
 		GameBoard.k2.setText(Integer.toString(tmp[13]));
-		System.out.println("P1's board: " + Arrays.toString(player1.getField()));
-		System.out.println("P2's board: " + Arrays.toString(player2.getField()));
+		System.out.println("Show board:");
+		System.out.println(Arrays.toString(Kalaha.board));
 	}
-	
-	public void setPlayerFields (int [] currentfield) {
-		game.getStatus();
-		
-		int [] p1field = new int [7];
-		int [] p2field = new int [7];
 
-		
-		player1.setField(p1field);
-		player2.setField(p2field);
-	}
-	
-	/**
-	 * choose who starts
-	 */
-	public static void coinToss () {
-		coin = (int) (Math.random() + .5);
-		System.out.println("Coin toss!");
-		
-		if (coin == 0) {
-			InfoField.message.setForeground(red);
-			InfoField.message.setText("Heads!   " + 
-										InfoField.player1.getText() +
-										"   starts first!");
-			turn1 = 1;
-			turn2 = 2;
-			System.out.println("Heads!");
-		} else {
-			InfoField.message.setForeground(blue);
-			InfoField.message.setText("Tails!   " + 
-										InfoField.player2.getText() +
-										"   starts first!");
-			turn2 = 1;
-			turn1 = 2;
-			System.out.println("Tails!");
-		}
-	}
 	/**
 	 * clears all selected JPanels on field for the new move
 	 */
@@ -459,10 +637,10 @@ public class Logics {
 	/**
 	 * enables field for player whose turn it is
 	 */
-	public static void enableFields(Player player1, Player player2, int currentturn) {
-		System.out.println("enableFields initialized. Turn: " + currentturn);
-		if (player1.getTurn() == currentturn) {
-			System.out.println(" Player 1 turn is current");
+	public static void enableFields(Player player1, Player player2, Player activePlayer) {
+//		System.out.println("enableFields initialized");
+		if ( activePlayer == player1 ) {
+//			System.out.println(" Player 1 turn is current");
 			GameBoard.pl1h1.setEnabled(true);
 			GameBoard.pl1h2.setEnabled(true);
 			GameBoard.pl1h3.setEnabled(true);
@@ -475,9 +653,9 @@ public class Logics {
 			GameBoard.pl2h4.setEnabled(false);
 			GameBoard.pl2h5.setEnabled(false);
 			GameBoard.pl2h6.setEnabled(false);
-			System.out.println("P1 fields enabled");
-		} else if (player2.getTurn() == currentturn) {
-			System.out.println(" Player 2 turn is current");
+//			System.out.println("P1 fields enabled");
+		} else if ( activePlayer == player2 ) {
+//			System.out.println(" Player 2 turn is current");
 			GameBoard.pl1h1.setEnabled(false);
 			GameBoard.pl1h2.setEnabled(false);
 			GameBoard.pl1h3.setEnabled(false);
@@ -490,15 +668,11 @@ public class Logics {
 			GameBoard.pl2h4.setEnabled(true);
 			GameBoard.pl2h5.setEnabled(true);
 			GameBoard.pl2h6.setEnabled(true);
-			System.out.println("P2 fields enabled");				
+//			System.out.println("P2 fields enabled");				
 		}
 	}
 	
-	public static void playGame(Kalaha game) {
-//		while (gameWon(game.player1, game.player2) == false) {
-//			game.setCurrentTurn(game.currentturn);
-			whoseTurn(game.currentturn);
-			giveTurn(game.player1, game.player2, game.currentturn);
-//		}
+	public void playGame(Kalaha game) {
+//			game.changeActivePlayer(Kalaha.activePlayer);
 	}
 }

@@ -114,9 +114,23 @@ public class StandardActions {
 		public void actionPerformed (ActionEvent e) {
 			setField();
 //			Gameplay.coinToss();
-			Logics.newGame();
-			Logics.showBoard();
-			Logics.playGame(Logics.newGame());
+			Logics logics = new Logics();
+			logics.newGame();
+//			Logics.showBoard();
+//			logics.playGame(logics.newGame());
+			if ( Start.c1.isSelected() == true && Start.pl2.isSelected() == true) {
+				Logics.game.player1.setComputer(true);
+				Logics.game.player2.setComputer(false);
+			} else if ( Start.c2.isSelected() == true && Start.pl1.isSelected() == true ) {
+				Logics.game.player1.setComputer(false);
+				Logics.game.player2.setComputer(true);
+			} else if ( Start.pl1.isSelected() == true && Start.pl2.isSelected() == true ) {
+				Logics.game.player1.setComputer(false);
+				Logics.game.player2.setComputer(false);
+			} else if ( Start.c1.isSelected() == true && Start.c2.isSelected() == true ) {
+				Logics.game.player1.setComputer(true);
+				Logics.game.player2.setComputer(true);
+			}
 			Start.start.dispose();
 			}
 	};	
@@ -125,7 +139,7 @@ public class StandardActions {
 	 * clears field for new game. sets all elements to default state
 	 */
 	private static void clearField() {
-		InfoField.message.setText("Kalaha game is built by Nicky");
+		InfoField.message.setText("Kalaha game is built by Nicky =^.^=");
 		InfoField.message.setForeground(new Color (0,0,0));
 		InfoField.player1.setEnabled(false);
 		InfoField.player2.setEnabled(false);
@@ -169,7 +183,7 @@ public class StandardActions {
 		InfoField.player1.setEnabled(true);
 		InfoField.player2.setEnabled(true);
 		Start.name1.setEnabled(true);
-		Start.name1.setEnabled(true);
+		Start.name2.setEnabled(true);
 		InfoField.player1.setText(Start.name1.getText());
 		InfoField.player2.setText(Start.name2.getText());
 		GameBoard.hmsg.setText("Click a hole to choose it"); 

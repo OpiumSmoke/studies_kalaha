@@ -3,17 +3,7 @@ package game;
 public class Player {
 	public String name;
 	public int identity;
-	public int turn;
-	
-	public int [] field = new int[7];
-	
-	public int kalaha = field[6];
-	public int pit1 = field[0];
-	public int pit2 = field[1];
-	public int pit3 = field[2];
-	public int pit4 = field[3];
-	public int pit5 = field[4];
-	public int pit6 = field[5];
+	public boolean computer;
 	
 	public Player player;
 	
@@ -32,41 +22,30 @@ public class Player {
 		this.identity = number;
 	}
 	
-	public void setPlayer (String name, int identity, int turn, int[] field) {
+	public void setComputer(boolean computer) {
+		this.computer = computer;
+	}
+	
+	public boolean isComputer() {
+		return computer;
+	}
+	
+	
+	public void setPlayer (String name, int identity ) {
 		setName(name);
 		setIdentity(identity);
-		setTurn(turn);
-		setField(field);
 	}
 	
 	public Player getPlayer () {
 		return player;
 	}
 	
-	public void setTurn (int turn) {
-		this.turn = turn;
-	}
-	
-	public int getTurn() {
-		return turn;
-	}
-	
-	public int[] getField() {
-		return field;
-	}
-	
-	public void setField (int[] newfield) {
-		this.field = newfield;
-	}
-	
-	public void makeMove() {
-		
-	}
-	
-	public int getKalaha() {
-		int [] tmp = getField();
-		kalaha = tmp[6];
-		return kalaha;
-	}
+//	public void setTurn (int turn) {
+//		this.turn = turn;
+//	}
+//	
+//	public int getTurn() {
+//		return turn;
+//	}
 
 }

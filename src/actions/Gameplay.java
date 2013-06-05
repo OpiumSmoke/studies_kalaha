@@ -3,7 +3,7 @@
  */
 package actions;
 
-//import game.Kalaha;
+import game.Kalaha;
 import game.Logics;
 import game.Player;
 import gui.GameBoard;
@@ -46,7 +46,8 @@ public class Gameplay {
 			GameBoard.go.setEnabled(false);
 			Logics.makeMove(pit, pitnumber);	
 //			Logics.game.setCurrentTurn(Logics.game.getCurrentTurn());
-//			Logics.giveTurn(Logics.game.player1, Logics.game.player2, Logics.game.currentturn);
+//			Logics.giveTurn(Kalaha.player1, Kalaha.player2, Kalaha.currentturn);
+//			Logics.writeMoveOnField(Kalaha.player1, Kalaha.player2, Kalaha.currentturn, Logics.movearray);
 		}
 	};
 	
@@ -239,6 +240,13 @@ public class Gameplay {
 //			Logics.game.getSeedNumber(givePit(pit));
 			givePit(pit);
 			Logics.game.getSeedNumber(player, i);
+			
+			if (Logics.game.getSeedNumber(player, i) == 0) {
+				System.out.println("Oops, no seeds!");
+				
+				GameBoard.go.setEnabled(false);
+				GameBoard.hmsg.setText("Oops, you have no seeds in that pit, choose another one!");
+			}
 		}
 		
 		@Override
@@ -295,7 +303,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit= GameBoard.h21;
 					player = Logics.game.player2;
-					i = 0;
+					i = 7;
 					pitnumber = 0;
 				} else if (selectedfield == GameBoard.pl2h2 ) {
 					selectedfield.setBackground(selected2);
@@ -318,7 +326,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit = GameBoard.h22;
 					player = Logics.game.player2;
-					i = 1;
+					i = 8;
 					pitnumber = 1;
 				} else if ( selectedfield == GameBoard.pl2h3 ) {
 					selectedfield.setBackground(selected2);
@@ -341,7 +349,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit = GameBoard.h23;
 					player = Logics.game.player2;
-					i = 2;
+					i = 9;
 					pitnumber = 2;
 				} else if (selectedfield == GameBoard.pl2h4) {
 					selectedfield.setBackground(selected2);
@@ -364,7 +372,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit = GameBoard.h24;
 					player = Logics.game.player2;
-					i = 3;
+					i = 10;
 					pitnumber = 3;
 				} else if (selectedfield == GameBoard.pl2h5) {
 					selectedfield.setBackground(selected2);
@@ -387,7 +395,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit = GameBoard.h25;	
 					player = Logics.game.player2;
-					i = 4;
+					i = 11;
 					pitnumber = 4;
 				} else if ( selectedfield == GameBoard.pl2h6 ) {
 					selectedfield.setBackground(selected2);
@@ -410,7 +418,7 @@ public class Gameplay {
 					GameBoard.go.setEnabled(true);
 					pit = GameBoard.h26;
 					player = Logics.game.player2;
-					i = 5;
+					i = 12;
 					pitnumber = 5;
 				} 
 			} else if ( selectedfield.isEnabled() == false &&
@@ -426,9 +434,14 @@ public class Gameplay {
 			
 			GameBoard.hmsg.setForeground(blue);
 			GameBoard.hmsg.setText("Click yes to make your move!");
-//			Logics.game.getSeedNumber(givePit(pit));
 			givePit(pit);
 			Logics.game.getSeedNumber(player, i);
+			if (Logics.game.getSeedNumber(player, i) == 0) {
+				System.out.println("Oops, no seeds!");
+				
+				GameBoard.go.setEnabled(false);
+				GameBoard.hmsg.setText("Oops, you have no seeds in that pit, choose another one!");
+			}
 		}
 		
 		@Override
@@ -456,65 +469,7 @@ public class Gameplay {
 		}
 		
 	};
-	/**
-	 * is just a mouse listener to disable the fields. Does, well, noting
-	 */
-//	public static MouseListener doNothing = new MouseListener() {
-//
-//		@Override
-//		public void mouseClicked(MouseEvent e) {
-//			JButton selectedfield = (JButton) e.getSource();
-//			System.out.println("Mouse clicked on other player's field");
-//			
-//			if ( selectedfield == GameBoard.pl1h1 ||
-//					selectedfield == GameBoard.pl1h2 ||
-//					selectedfield == GameBoard.pl1h3 ||
-//					selectedfield == GameBoard.pl1h4 ||
-//					selectedfield == GameBoard.pl1h5 ||
-//					selectedfield == GameBoard.pl1h6) {	
-//				selectedfield.setBackground(color2);
-//				selectedfield.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-//				GameBoard.hmsg.setForeground(blue);
-//				GameBoard.hmsg.setText("Click your own fields! :P");
-//				System.out.println("Player 1 fields disabled");
-//			} else if ( selectedfield == GameBoard.pl2h1 ||
-//					selectedfield == GameBoard.pl2h2 ||
-//					selectedfield == GameBoard.pl2h3 ||
-//					selectedfield == GameBoard.pl2h4 ||
-//					selectedfield == GameBoard.pl2h5 ||
-//					selectedfield == GameBoard.pl2h6 ) {				
-//				GameBoard.hmsg.setForeground(red);
-//				GameBoard.hmsg.setText("Click your own fields! :P");
-//				System.out.println("Player 1 fields disabled");
-//			}	
-//			
-//		}
-//
-//		@Override
-//		public void mouseEntered(MouseEvent e) {
-//			
-//			
-//		}
-//
-//		@Override
-//		public void mouseExited(MouseEvent e) {
-//			
-//			
-//		}
-//
-//		@Override
-//		public void mousePressed(MouseEvent e) {
-//			
-//			
-//		}
-//
-//		@Override
-//		public void mouseReleased(MouseEvent e) {
-//			
-//			
-//		}
-//		
-//	};
+
 	
 	/**
 	 * returns the JLabel from clicked JPanel (field)
