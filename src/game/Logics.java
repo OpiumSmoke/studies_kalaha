@@ -532,6 +532,7 @@ public class Logics {
 				InfoField.message.setText("It's a draw!   Both players have " +
 						Integer.toString(Kalaha.board[13]) + " stones!");
 			}
+			showBoard();
 
 		} else 	if (tmp2 [0] == 0 &&
 					tmp2[1] == 0 &&
@@ -568,6 +569,7 @@ public class Logics {
 				InfoField.message.setText("It's a draw!   Both players have " +
 						Integer.toString(Kalaha.board[13]) + " stones!");
 			}
+			showBoard();
 			win = true;
 		} else {
 			win = false;
